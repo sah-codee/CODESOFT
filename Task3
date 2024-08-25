@@ -1,168 +1,109 @@
 //Course Registration DataBase
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class Course {
-    private String courseName;
     private String courseCode;
+    private String title;
+    private String description;
+    private int capacity;
+    private String schedule;
+    private int enrolledStudents;
 
-    public Course(String courseName, String courseCode) {
-        this.courseName = courseName;
+    public Course(String courseCode, String title, String description, int capacity, String schedule) {
         this.courseCode = courseCode;
-    }
-
-    public String getCourseName() {
-        return courseName;
+        this.title = title;
+        this.description = description;
+        this.capacity = capacity;
+        this.schedule = schedule;
+        this.enrolledStudents = 0;
     }
 
     public String getCourseCode() {
         return courseCode;
     }
 
-    @Override
-    public String toString() {
-        return courseCode + " - " + courseName;
-    }
-}
-
-class Student {
-    private String studentName;
-    private ArrayList<Course> registeredCourses;
-
-    public Student(String studentName) {
-        this.studentName = studentName;
-        this.registeredCourses = new ArrayList<>();
+    public String getTitle() {
+        return title;
     }
 
-    public void registerCourse(Course course) {
-        registeredCourses.add(course);
-        System.out.println("Successfully registered for " + course.getCourseName());
+    public int getCapaci…
+[12:48, 8/25/2024] ~Sahana Gowda: import java.util.Scanner;
+
+public class ATM {
+    private double balance;
+
+    public ATM() {
+        this.balance = 0;
     }
 
-    public void viewRegisteredCourses() {
-        if (registeredCourses.isEmpty()) {
-            System.out.println("No courses registered.");
+    public void checkBalance() {
+        System.out.printf("Your current balance is: $%.2f%n", balance);
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.printf("Successfully deposited $%.2f. Your new balance is: $%.2f%n", amount, balance);
         } else {
-            System.out.println("Registered Courses:");
-            for (Course course : registeredCourses) {
-                System.out.println(course);
-            }
+            System.out.println("Deposit amount must be positive.");
         }
     }
 
-    public String getStudentName() {
-        return studentName;
-    }
-}
-
-class CourseRegistrationSystem {
-    private ArrayList<Course> availableCourses;
-    private ArrayList<Student> students;
-
-    public CourseRegistrationSystem() {
-        availableCourses = new ArrayList<>();
-        students = new ArrayList<>();
-    }
-
-    public void addCourse(Course course) {
-        availableCourses.add(course);
-    }
-
-    public void addStudent(Student student) {
-        students.add(student);
-    }
-
-    public Student findStudent(String studentName) {
-        for (Student student : students) {
-            if (student.getStudentName().equalsIgnoreCase(studentName)) {
-                return student;
-            }
-        }
-        return null;
-    }
-
-    public void viewAvailableCourses() {
-        if (availableCourses.isEmpty()) {
-            System.out.println("No available courses.");
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.printf("Successfully withdrew $%.2f. Your new balance is: $%.2f%n", amount, balance);
+        } else if (amount > balance) {
+            System.out.println("Insufficient funds.");
         } else {
-            System.out.println("Available Courses:");
-            for (Course course : availableCourses) {
-                System.out.println(course);
-            }
+            System.out.println("Withdrawal amount must be positive.");
         }
     }
 
-    public Course findCourse(String courseCode) {
-        for (Course course : availableCourses) {
-            if (course.getCourseCode().equalsIgnoreCase(courseCode)) {
-                return course;
-            }
-        }
-        return null;
+    public void logout() {
+        System.out.println("You have successfully logged out.");
     }
-}
 
-public class Main {
     public static void main(String[] args) {
-        CourseRegistrationSystem system = new CourseRegistrationSystem();
-
-        // Add some courses to the system
-        system.addCourse(new Course("Introduction to Programming", "CS101"));
-        system.addCourse(new Course("Data Structures", "CS102"));
-        system.addCourse(new Course("Operating Systems", "CS103"));
-
-        // Add a student to the system
-        system.addStudent(new Student("John Doe"));
-
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("\nCourse Registration System");
-            System.out.println("1. View Available Courses");
-            System.out.println("2. Register for a Course");
-            System.out.println("3. View Registered Courses");
-            System.out.println("4. Exit");
-            System.out.print("Choose an option: ");
+        ATM atm = new ATM();
+        boolean isActive = true;
+
+        while (isActive) {
+            System.out.println("\nATM Menu:");
+            System.out.println("1. Check Balance");
+            System.out.println("2. Deposit");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Logout");
+            System.out.print("Choose an option (1-4): ");
+
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
 
             switch (choice) {
                 case 1:
-                    system.viewAvailableCourses();
+                    atm.checkBalance();
                     break;
                 case 2:
-                    System.out.print("Enter your name: ");
-                    String studentName = scanner.nextLine();
-                    Student student = system.findStudent(studentName);
-                    if (student == null) {
-                        System.out.println("Student not found.");
-                    } else {
-                        System.out.print("Enter course code to register: ");
-                        String courseCode = scanner.nextLine();
-                        Course course = system.findCourse(courseCode);
-                        if (course == null) {
-                            System.out.println("Course not found.");
-                        } else {
-                            student.registerCourse(course);
-                        }
-                    }
+                    System.out.print("Enter deposit amount: ");
+                    double depositAmount = scanner.nextDouble();
+                    atm.deposit(depositAmount);
                     break;
                 case 3:
-                    System.out.print("Enter your name: ");
-                    studentName = scanner.nextLine();
-                    student = system.findStudent(studentName);
-                    if (student == null) {
-                        System.out.println("Student not found.");
-                    } else {
-                        student.viewRegisteredCourses();
-                    }
+                    System.out.print("Enter withdrawal amount: ");
+                    double withdrawalAmount = scanner.nextDouble();
+                    atm.withdraw(withdrawalAmount);
                     break;
                 case 4:
-                    System.out.println("Exiting...");
-                    scanner.close();
-                    return;
+                    atm.logout();
+                    isActive = false;
+                    break;
                 default:
-                    System.out.println("Invalid option. Try again.");
+                    System.out.println("Invalid choice. Please choose a valid option.");
             }
         }
+
+        scanner.close();
     }
 }
