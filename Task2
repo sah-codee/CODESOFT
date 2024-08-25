@@ -1,0 +1,40 @@
+//Grade Calculator
+import java.util.Scanner;
+public class Task2
+{
+    public static void main(String args[])
+    {
+    Scanner sc=new Scanner(System.in);
+        System.out.println("Enter the number of subjects");
+        int subj=sc.nextInt();
+        int totals=0;
+        int totalm=600;
+        for(int i=1; i<=subj; i++) {
+            System.out.println("Enter the marks of " + (i) + ":");
+            int marks = sc.nextInt();
+            totals += marks;
+        }
+        System.out.println("TOTAL MARKS SCORED BY STUDENT IS "+(totals));
+            double avgp= (double)totals/totalm*100;
+        System.out.println("Average percentage is "+avgp);
+            if(avgp >=90)
+            {
+                System.out.println("STUDENT HAS SCORED GRADE A");
+            }
+            else if(avgp>=80)
+            {
+                System.out.println("THE STUDENT HAS SCORED GRADE B");
+            }
+            else if(avgp>=70)
+            {
+                System.out.println("THE STUDENT HAS SCORED GRADE C");
+            }
+            else if(avgp>=60)
+            {
+                System.out.println("THE STUDENT HAS SCORED GRADE D");
+            }
+            else {
+                System.out.println("THE STUDENT HAS SCORED GRADE F");
+            }
+        }
+    }
